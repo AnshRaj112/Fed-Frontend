@@ -180,16 +180,14 @@
     )
   );
   display: inline-flex;
-  padding: 0.6rem 0.8rem;
+  padding: 0.4rem 0.8rem;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
-  gap: 0.3rem;
-  // width: 10rem;
+  margin-left: 0.5rem; /* 👈 gap between "Free" and button */
   cursor: progress;
   outline: none;
   border: none;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #fff;
 }
 
@@ -243,6 +241,27 @@ a {
 }
 .hovered button {
   width: 44%;
+}
+
+.teamDetailsBtn {
+width: 30px;        
+  height: 35px;      
+  padding-bottom: 10px;         
+  background-color: transparent; 
+  border: none;      
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover {
+    
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 600px) {

@@ -9,13 +9,14 @@ import shareOutline from "../../assets/images/shareOutline.svg";
 import { PiClockCountdownDuotone } from "react-icons/pi";
 import { IoIosLock, IoIosStats } from "react-icons/io";
 import { MdGroups } from "react-icons/md";
-import { FaUser, FaRupeeSign } from "react-icons/fa";
+import { FaUser, FaRupeeSign, FaEye } from "react-icons/fa";
 import { parse, differenceInMilliseconds, formatDistanceToNow } from "date-fns";
 import { Button } from "../Core";
 import AuthContext from "../../context/AuthContext";
 import EventCardSkeleton from "../../layouts/Skeleton/EventCard/EventCardSkeleton";
 import { Blurhash } from "react-blurhash";
 import { Alert, MicroLoading } from "../../microInteraction";
+import { TeamDetailsModal } from "../../features/Modals";
 // import useUnixTimestamp from "../../utils/hooks/useUnixTimeStamp";
 
 const EventCard = (props) => {
@@ -51,6 +52,7 @@ const EventCard = (props) => {
   const [navigatePath, setNavigatePath] = useState("/");
   const [isLocked, setIsLocked] = useState(false);
   const [alert, setAlert] = useState(null);
+  const [isTeamDetailsOpen, setIsTeamDetailsOpen] = useState(false);
 
   useEffect(() => {
     if (shouldNavigate) {
@@ -509,6 +511,22 @@ const EventCard = (props) => {
               </button>
             </div>
           )}
+          
+          {/* See Team Details Button - Only show for team events when user is registered */}
+          {type === "ongoing" && 
+           info.participationType === "Team" && 
+           btnTxt === "Already Registered" && 
+           authCtx.isLoggedIn && (
+            <div style={{ marginTop: "10px", textAlign: "center" }}>
+              <button
+                className={style.teamDetailsBtn}
+                onClick={() => setIsTeamDetailsOpen(true)}
+              >
+                <FaEye size={14} />
+               
+              </button>
+            </div>
+          )}
         </div>
         <div className={style.backtxt} style={customStyles.backtxt}>
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -578,6 +596,15 @@ const EventCard = (props) => {
           />
         </div>
       )}
+      
+      {/* Team Details Modal */}
+      <TeamDetailsModal
+        isOpen={isTeamDetailsOpen}
+        onClose={() => setIsTeamDetailsOpen(false)}
+        formId={data.id}
+        eventTitle={info.eventTitle}
+      />
+      
       <Alert />
     </div>
   );
